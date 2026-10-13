@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cuentas">
+<meta name="theme-color" content="#0f1722">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<title>Cuentas Javier</title>
+<style>
+ :root{--bg:#0f1722;--panel:#18222f;--panel2:#202c3c;--line:#2b394c;--txt:#e5eaf1;--mut:#8f9db0;
+       --blue:#3b82f6;--blue2:#2563eb;--steel:#334155;--neg:#e28585;--pos:#86b6f2;--r:14px}
+ *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+ html,body{margin:0;background:var(--bg);color:var(--txt)}
+ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;font-size:16px;
+      min-height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+ .top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 6px;max-width:560px;margin:0 auto}
+ .brand{display:flex;align-items:center;gap:11px}
+ .brand img{width:36px;height:36px;border-radius:9px}
+ .brand h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.2px}
+ .brand p{margin:0;font-size:12.5px;color:var(--mut)}
+ main{max-width:560px;margin:0 auto;padding:8px 16px 28px;display:flex;flex-direction:column;gap:12px}
+ button{font:inherit;color:inherit}
+ .btn{display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:var(--r);padding:15px 14px;
+      font-size:16.5px;font-weight:600;cursor:pointer;width:100%}
+ .btn:active{opacity:.82}
+ .btn:disabled{opacity:.45}
+ .btn svg{width:19px;height:19px;flex-shrink:0}
+ .pri{background:var(--blue2);color:#fff}
+ .sec{background:var(--panel2);border:1px solid var(--line)}
+ .ghost{background:transparent;border:1px solid var(--line);color:var(--mut)}
+ .danger{background:transparent;border:1px solid #5b3438;color:var(--neg)}
+ .acciones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .hero{background:linear-gradient(160deg,#25364d,#18222f);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px}
+ .hero-l{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+ .hero-v{font-size:34px;font-weight:700;margin:4px 0 10px;font-variant-numeric:tabular-nums}
+ .hero-row{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}
+ .hero-row b{color:var(--txt);font-weight:600;margin-left:4px;font-variant-numeric:tabular-nums}
+ .neg{color:var(--neg)!important}
+ .lista{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+ .lista>button,.fila{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);
+      padding:15px 14px;text-align:left;cursor:pointer;font-size:16px}
+ .lista>button:last-child,.fila:last-child{border-bottom:0}
+ .lista>button:active,.fila:active{background:var(--panel2)}
+ .lista svg{width:20px;height:20px;color:var(--pos);flex-shrink:0}
+ .lista span{flex:1}
+ .lista .chev{width:16px;height:16px;color:var(--mut)}
+ .fila .f1{flex:1;min-width:0}
+ .fila .f1 div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .fila small{color:var(--mut);font-size:13px}
+ .fila b{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+ .tit{font-size:21px;font-weight:700;margin:4px 2px 0}
+ .sect{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin:8px 2px -4px}
+ .lbl{font-size:13.5px;color:var(--mut);margin:4px 2px -6px}
+ .campo{width:100%;font-size:17px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--txt);
+        outline:none;-webkit-appearance:none;appearance:none;min-height:50px}
+ .campo:focus{border-color:var(--blue)}
+ .campo.grande{font-size:28px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+ .campo::placeholder{color:#5d6b7e}
+ .chips{display:flex;flex-wrap:wrap;gap:8px}
+ .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:15px;cursor:pointer}
+ .chip.sel{background:var(--blue2);border-color:var(--blue2);color:#fff}
+ .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:3px}
+ .seg button{border:0;background:none;padding:10px;border-radius:9px;font-size:15px;cursor:pointer;color:var(--mut)}
+ .seg button.sel{background:var(--steel);color:var(--txt);font-weight:600}
+ .foto{width:100%;max-height:44vh;object-fit:contain;border-radius:12px;background:#000;border:1px solid var(--line)}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+ .card .cl{font-size:13px;color:var(--mut)}
+ .card .cv{font-size:22px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+ .card.big .cv{font-size:30px}
+ .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .bar{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+ .bt{display:flex;justify-content:space-between;gap:10px;font-size:15px;margin-bottom:7px}
+ .bt b{font-weight:600;font-variant-numeric:tabular-nums}
+ .bt small{color:var(--mut);margin-left:6px;font-weight:400}
+ .bb{height:6px;background:#0d141d;border-radius:4px;overflow:hidden}
+ .bb i{display:block;height:100%;background:var(--blue);border-radius:4px}
+ .mesnav{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;text-align:center;font-weight:700;font-size:18px}
+ .mesnav button{background:var(--panel);border:1px solid var(--line);border-radius:12px;height:44px;font-size:22px;cursor:pointer}
+ .det{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+ .det div{display:flex;justify-content:space-between;gap:14px;padding:13px 15px;border-bottom:1px solid var(--line)}
+ .det div:last-child{border-bottom:0}
+ .det span{color:var(--mut)}
+ .det b{font-weight:600;text-align:right;word-break:break-word}
+ .aviso{background:#1d2a3d;border:1px solid #34507a;border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.45;color:#cfdbeb}
+ .lnk{background:none;border:0;color:var(--pos);font-weight:600;padding:0;cursor:pointer;text-decoration:underline}
+ .txt{font-size:15px;line-height:1.55;color:#c7d1de;margin:0}
+ .txt b{color:var(--txt)}
+ ol.pasos{margin:0;padding-left:22px;font-size:15px;line-height:1.6;color:#c7d1de}
+ ol.pasos li{margin-bottom:6px}
+ .vacio{text-align:center;color:var(--mut);padding:18px 8px;font-size:15px}
+ .ok{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding-top:7vh}
+ .ok .chk{width:66px;height:66px;border-radius:50%;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;color:var(--blue);margin-bottom:6px}
+ .ok .chk svg{width:32px;height:32px}
+ .ok h2{margin:0;font-size:23px;font-weight:700}
+ .ok .okd{margin:0;color:var(--mut);font-size:15px}
+ .ok .ins{margin:16px 0 22px;font-size:19px;font-weight:600;color:var(--pos)}
+ .ok .btn{max-width:420px}
+ #toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+        background:#2a3a52;color:#fff;padding:11px 18px;border-radius:12px;font-size:15px;opacity:0;transition:.25s;pointer-events:none;
+        max-width:88vw;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+ #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+ .fotobtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style></head>
+<body>
+<header class="top"><div class="brand"><img src="icon-192.png" alt=""><div><h1>Cuentas</h1><p>Javier</p></div></div></header>
+<main id="view"></main>
+<div id="toast"></div>
+<input type="file" id="cam" accept="image/*" capture="environment" hidden>
+<input type="file" id="gal" accept="image/*" hidden>
+<input type="file" id="restore" accept=".json,application/json" hidden>
+<script>
+'use strict';
+const INSULTO = 'Bien hecho, idiota.';
+const CATS_DEF = ['Comida','Transporte','Hogar','Servicios','Salud','Ocio','Otros'];
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const sv = p => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
+const I = {
+  mas: sv('<path d="M12 5v14M5 12h14"/>'),
+  menos: sv('<path d="M5 12h14"/>'),
+  cam: sv('<path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="4"/>'),
+  chart: sv('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+  list: sv('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'),
+  tag: sv('<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>'),
+  folder: sv('<path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+  help: sv('<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 2.2-2.4 3.7M12 17h.01"/>'),
+  chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>',
+  ok: sv('<path d="m5 12 5 5 9-10"/>'),
+  share: sv('<path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>'),
+  img: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/>')
+};
+
+let db, CATS = CATS_DEF.slice(), dirHandle = null, dirOk = false;
+let form = null, mesResumen = hoy().slice(0,7), copiaFile = null, csvFile = null, _mesAbierto = null;
+const $ = id => document.getElementById(id);
+
+/* ---------- utilidades ---------- */
+function hoy(){ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
+function money(n){ const v=Math.round(Number(n)||0); return (v<0?'−$':'$')+Math.abs(v).toLocaleString('es-CO'); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function nombreMes(ym){ const p=ym.split('-'); return MESES[parseInt(p[1],10)-1]+' '+p[0]; }
+function fechaCorta(f){ const p=(f||'').split('-'); if(p.length<3) return f||''; return parseInt(p[2],10)+' '+MESES[parseInt(p[1],10)-1].slice(0,3).toLowerCase()+' '+p[0]; }
+function mover(ym,d){ let [y,m]=ym.split('-').map(Number); m+=d; if(m<1){m=12;y--;} if(m>12){m=1;y++;} return y+'-'+String(m).padStart(2,'0'); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function soloDigitos(s){ return String(s||'').replace(/\D/g,''); }
+function fmtInput(el){ const d=soloDigitos(el.value).replace(/^0+/,''); el.value=d?Number(d).toLocaleString('es-CO'):''; }
+function esIOS(){ return /iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1); }
+function esMovil(){ return esIOS()||/Android/i.test(navigator.userAgent); }
+function standalone(){ return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true; }
+let _tt; function toast(t){ const e=$('toast'); e.textContent=t; e.classList.add('on'); clearTimeout(_tt); _tt=setTimeout(()=>e.classList.remove('on'),2600); }
+function pantalla(html){ $('view').innerHTML=html; window.scrollTo(0,0); }
+function ordenar(a){ return a.sort((x,y)=>(y.fecha||'').localeCompare(x.fecha||'')||(y.creado||'').localeCompare(x.creado||'')); }
+
+/* ---------- base de datos local (IndexedDB, solo en este equipo) ---------- */
+function abrirDB(){ return new Promise((res,rej)=>{ const r=indexedDB.open('cuentas-javier',1);
+  r.onupgradeneeded=()=>{ const d=r.result; d.createObjectStore('movs',{keyPath:'id'}); d.createObjectStore('fotos',{keyPath:'id'}); d.createObjectStore('meta'); };
+  r.onsuccess=()=>{ db=r.result; res(db); }; r.onerror=()=>rej(r.error); }); }
+function tx(st,mode,fn){ return new Promise((res,rej)=>{ const t=db.transaction(st,mode); let out; const r=fn(t.objectStore(st));
+  if(r) r.onsuccess=()=>{ out=r.result; }; t.oncomplete=()=>res(out); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }); }
+const getAll = st => tx(st,'readonly',s=>s.getAll());
+const getOne = (st,k) => tx(st,'readonly',s=>s.get(k));
+const put = (st,v) => tx(st,'readwrite',s=>s.put(v));
+const del = (st,k) => tx(st,'readwrite',s=>s.delete(k));
+const getMeta = k => tx('meta','readonly',s=>s.get(k));
+const setMeta = (k,v) => tx('meta','readwrite',s=>s.put(v,k));
+
+function resumir(movs,ym){ let ing=0,gas=0,pend=0; const porCat={};
+  movs.forEach(m=>{ if((m.fecha||'').slice(0,7)!==ym) return;
+    if(m.tipo==='Ingreso') ing+=m.valor; else { gas+=m.valor; if(m.estado==='Pendiente') pend+=m.valor;
+      const k=m.categoria||'Sin categoría'; porCat[k]=(porCat[k]||0)+m.valor; } });
+  return {ingresos:ing,gastos:gas,saldo:ing-gas,pendientes:pend,porCat}; }
+
+/* ---------- inicio ---------- */
+async function home(){ form=null;
+  const movs=await getAll('movs'); const ym=hoy().slice(0,7); const r=resumir(movs,ym);
+  const last=await getMeta('lastBackup'); const dias=last?Math.floor((Date.now()-new Date(last).getTime())/864e5):null;
+  let aviso='';
+  if(esIOS()&&!standalone()) aviso+='<div class="aviso">Primero instálala: toca <b>Compartir</b> (cuadro con flecha) → <b>Agregar a inicio</b>, y ábrela siempre desde ese ícono. Lo que anotes aquí en Safari no pasa a la app instalada. <button class="lnk" onclick="ayuda()">Ver cómo</button></div>';
+  else if(dirHandle&&!dirOk) aviso+='<div class="aviso">La carpeta de este computador quedó desconectada. <button class="lnk" onclick="reconectar()">Reconectar</button></div>';
+  else if(movs.length&&!(dirHandle&&dirOk)&&(dias===null||dias>=7)) aviso+='<div class="aviso">'+(dias===null?'Aún no has guardado ninguna copia en tu carpeta.':'Tu última copia fue hace '+dias+' días.')+' <button class="lnk" onclick="copia()">Guardar copia ahora</button></div>';
+  pantalla(aviso+
+   '<section class="hero"><div class="hero-l">Saldo de '+nombreMes(ym).toLowerCase()+'</div>'+
+   '<div class="hero-v '+(r.saldo<0?'neg':'')+'">'+money(r.saldo)+'</div>'+
+   '<div class="hero-row"><span>Gastos<b>'+money(r.gastos)+'</b></span><span>Ingresos<b>'+money(r.ingresos)+'</b></span></div></section>'+
+   '<div class="acciones"><button class="btn pri" onclick="nuevo(\'Gasto\')">'+I.menos+'Gasto</button>'+
+   '<button class="btn sec" onclick="nuevo(\'Ingreso\')">'+I.mas+'Ingreso</button></div>'+
+   '<button class="btn sec" onclick="$(\'cam\').click()">'+I.cam+'Foto de recibo</button>'+
+   '<nav class="lista">'+
+   '<button onclick="resumen()">'+I.chart+'<span>Resumen del mes</span>'+I.chev+'</button>'+
+   '<button onclick="meses()">'+I.list+'<span>Movimientos</span>'+I.chev+'</button>'+
+   '<button onclick="categorias()">'+I.tag+'<span>Categorías</span>'+I.chev+'</button>'+
+   '<button onclick="copia()">'+I.folder+'<span>Mi carpeta y copias</span>'+I.chev+'</button>'+
+   '<button onclick="ayuda()">'+I.help+'<span>Ayuda</span>'+I.chev+'</button></nav>');
+}
+
+/* ---------- formulario gasto / ingreso ---------- */
+function nuevo(tipo,foto){ form={id:null,tipo,valor:'',concepto:'',fecha:hoy(),categoria:'',estado:'Pagado',foto:foto||null,fotoId:null}; pintarForm(); }
+async function editar(id){ const m=await getOne('movs',id); if(!m){ home(); return; }
+  let foto=null; if(m.fotoId){ const f=await getOne('fotos',m.fotoId); foto=f?f.data:null; }
+  form=Object.assign({},m,{foto}); pintarForm(); }
+function pintarForm(){ const g=form.tipo==='Gasto', ed=!!form.id;
+  pantalla('<div class="tit">'+(ed?'Editar ':'Nuevo ')+form.tipo.toLowerCase()+'</div>'+
+   '<label class="lbl" for="fValor">Valor</label>'+
+   '<input class="campo grande" id="fValor" inputmode="numeric" placeholder="$ 0" autocomplete="off" value="'+(form.valor?Number(form.valor).toLocaleString('es-CO'):'')+'" oninput="fmtInput(this)">'+
+   '<label class="lbl" for="fConcepto">'+(g?'Concepto':'De dónde vino')+'</label>'+
+   '<input class="campo" id="fConcepto" autocomplete="off" placeholder="'+(g?'Ej: mercado, gasolina':'Ej: sueldo')+'" value="'+esc(form.concepto)+'">'+
+   '<label class="lbl" for="fFecha">Fecha</label>'+
+   '<input class="campo" type="date" id="fFecha" value="'+esc(form.fecha||hoy())+'">'+
+   (g?'<label class="lbl">Categoría</label><div class="chips" id="fCats"></div>'+
+      '<label class="lbl">Estado</label><div class="seg" id="fEstado"></div>'+
+      '<label class="lbl">Recibo (opcional)</label><div id="fFoto"></div>':'')+
+   '<div style="height:4px"></div><button class="btn pri" onclick="guardarForm()">Guardar</button>'+
+   '<button class="btn ghost" onclick="'+(ed?'detalle(\''+form.id+'\')':'home()')+'">Cancelar</button>');
+  if(g){ pintarChips(); pintarEstado(); pintarFoto(); }
+  if(!ed&&!form.foto) setTimeout(()=>{ const v=$('fValor'); if(v&&!esMovil()) v.focus(); },50);
+}
+function pintarChips(){ const c=$('fCats'); if(!c) return;
+  const lista=CATS.slice(); if(form.categoria&&lista.indexOf(form.categoria)<0) lista.push(form.categoria);
+  c.innerHTML=lista.map(k=>'<button class="chip'+(k===form.categoria?' sel':'')+'" data-k="'+esc(k)+'">'+esc(k)+'</button>').join('');
+  [...c.children].forEach(b=>b.onclick=()=>{ form.categoria=(form.categoria===b.dataset.k)?'':b.dataset.k; pintarChips(); }); }
+function pintarEstado(){ const c=$('fEstado'); if(!c) return;
+  c.innerHTML=['Pagado','Pendiente'].map(e=>'<button class="'+(e===form.estado?'sel':'')+'">'+e+'</button>').join('');
+  [...c.children].forEach(b=>b.onclick=()=>{ form.estado=b.textContent; pintarEstado(); }); }
+function pintarFoto(){ const c=$('fFoto'); if(!c) return;
+  c.innerHTML=form.foto
+   ?'<img class="foto" src="'+form.foto+'" alt="Recibo"><div style="height:8px"></div><button class="btn ghost" onclick="form.foto=null;form.fotoOrig=null;pintarFoto()">Quitar foto</button>'
+   :'<div class="fotobtns"><button class="btn sec" onclick="$(\'cam\').click()">'+I.cam+'Tomar</button><button class="btn sec" onclick="$(\'gal\').click()">'+I.img+'Galería</button></div>'; }
+function achicar(file){ return new Promise((res,rej)=>{ const fr=new FileReader(); fr.onerror=()=>rej(fr.error);
+  fr.onload=()=>{ const im=new Image(); im.onerror=()=>rej(new Error('img'));
+    im.onload=()=>{ const max=800; let w=im.naturalWidth,h=im.naturalHeight; if(w>max||h>max){ const k=Math.min(max/w,max/h); w=Math.round(w*k); h=Math.round(h*k); }
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(im,0,0,w,h); res(cv.toDataURL('image/jpeg',0.62)); };
+    im.src=fr.result; }; fr.readAsDataURL(file); }); }
+async function onFoto(e){ const f=e.target.files&&e.target.files[0]; e.target.value=''; if(!f) return;
+  let data; try{ data=await achicar(f); }catch(_){ toast('No se pudo leer la foto.'); return; }
+  const orig=e.target.id==='cam'?f:null;
+  if(form&&$('fFoto')){ form.foto=data; form.fotoOrig=orig; pintarFoto(); } else { nuevo('Gasto',data); form.fotoOrig=orig; } }
+async function guardarForm(){ const v=soloDigitos($('fValor').value);
+  if(!v||Number(v)<=0){ toast('Escribe el valor.'); $('fValor').focus(); return; }
+  const g=form.tipo==='Gasto', ed=!!form.id;
+  const m={ id:form.id||uid(), tipo:form.tipo, valor:Number(v), concepto:$('fConcepto').value.trim(), fecha:$('fFecha').value||hoy(),
+            categoria:g?form.categoria:'', estado:g?form.estado:'', creado:form.creado||new Date().toISOString(), fotoId:form.fotoId||null };
+  try{
+    if(g&&form.foto){ if(!m.fotoId) m.fotoId=uid(); await put('fotos',{id:m.fotoId,data:form.foto}); }
+    else if(m.fotoId){ await del('fotos',m.fotoId); m.fotoId=null; }
+    await put('movs',m);
+  }catch(err){ toast('No se pudo guardar. Revisa el espacio del teléfono.'); return; }
+  const orig=g&&form.foto?form.fotoOrig:null; cambio(); form=null; _fotoOrig=orig;
+  if(ed){ toast('Cambios guardados.'); detalle(m.id); }
+  else listo(g?'Gasto guardado':'Ingreso guardado', money(m.valor)+(m.concepto?' · '+esc(m.concepto):(m.categoria?' · '+esc(m.categoria):'')),
+             (orig&&esMovil()&&navigator.canShare&&navigator.canShare({files:[orig]})?'<button class="btn sec" onclick="fotoAGaleria()">'+I.img+'Guardar la foto original en mi galería</button>':'')+'<button class="btn pri" onclick="nuevo(\''+m.tipo+'\')">Anotar otro</button>'); }
+let _fotoOrig=null;
+async function fotoAGaleria(){ if(!_fotoOrig) return; try{ await navigator.share({files:[_fotoOrig]}); toast('Toca «Guardar imagen» para dejarla en Fotos.'); }catch(_){} }
+
+/* ---------- confirmación ---------- */
+function listo(titulo,detalleTxt,extra){
+  pantalla('<div class="ok"><div class="chk">'+I.ok+'</div><h2>'+titulo+'</h2>'+(detalleTxt?'<p class="okd">'+detalleTxt+'</p>':'')+
+   '<p class="ins">'+INSULTO+'</p>'+(extra||'')+'<div style="height:10px;width:100%"></div><button class="btn ghost" onclick="home()">Inicio</button></div>'); }
+
+/* ---------- resumen ---------- */
+async function resumen(ym){ if(ym) mesResumen=ym; const movs=await getAll('movs'); const r=resumir(movs,mesResumen);
+  const cats=Object.entries(r.porCat).sort((a,b)=>b[1]-a[1]); const max=cats.length?cats[0][1]:1;
+  let total=0; movs.forEach(m=>{ total+=m.tipo==='Ingreso'?m.valor:-m.valor; });
+  pantalla('<div class="mesnav"><button onclick="resumen(mover(mesResumen,-1))" aria-label="Mes anterior">‹</button><div>'+nombreMes(mesResumen)+'</div><button onclick="resumen(mover(mesResumen,1))" aria-label="Mes siguiente">›</button></div>'+
+   '<div class="card big"><div class="cl">Saldo del mes</div><div class="cv '+(r.saldo<0?'neg':'')+'">'+money(r.saldo)+'</div></div>'+
+   '<div class="grid2"><div class="card"><div class="cl">Gastos</div><div class="cv">'+money(r.gastos)+'</div></div>'+
+   '<div class="card"><div class="cl">Ingresos</div><div class="cv">'+money(r.ingresos)+'</div></div></div>'+
+   '<div class="card"><div class="cl">Pendiente por pagar</div><div class="cv">'+money(r.pendientes)+'</div></div>'+
+   '<div class="sect">Gastos por categoría</div>'+
+   (cats.length?cats.map(([k,v])=>'<div class="bar"><div class="bt"><span>'+esc(k)+'</span><b>'+money(v)+'<small>'+Math.round(v/r.gastos*100)+'%</small></b></div><div class="bb"><i style="width:'+Math.max(2,v/max*100)+'%"></i></div></div>').join('')
+     :'<div class="vacio">Sin gastos este mes.</div>')+
+   '<div class="sect">Acumulado</div><div class="card"><div class="cl">Ingresos menos gastos, todo el tiempo</div><div class="cv '+(total<0?'neg':'')+'">'+money(total)+'</div></div>'+
+   '<button class="btn ghost" onclick="home()">Inicio</button>'); }
+
+/* ---------- movimientos ---------- */
+async function meses(){ const movs=await getAll('movs'); const acc={};
+  movs.forEach(m=>{ const k=(m.fecha||'').slice(0,7); if(!k) return; acc[k]=acc[k]||{g:0,i:0,n:0}; acc[k].n++; if(m.tipo==='Ingreso') acc[k].i+=m.valor; else acc[k].g+=m.valor; });
+  const ks=Object.keys(acc).sort().reverse();
+  pantalla('<div class="tit">Movimientos</div>'+
+   (ks.length?'<div class="lista">'+ks.map(k=>'<button class="fila" onclick="abrirMes(\''+k+'\')"><div class="f1"><div>'+nombreMes(k)+'</div><small>'+acc[k].n+' mov. · gastos '+money(acc[k].g)+'</small></div><b class="'+(acc[k].i-acc[k].g<0?'neg':'')+'">'+money(acc[k].i-acc[k].g)+'</b>'+I.chev+'</button>').join('')+'</div>'
+     :'<div class="vacio">Todavía no hay movimientos.</div>')+
+   '<button class="btn ghost" onclick="home()">Inicio</button>'); }
+async function abrirMes(ym){ _mesAbierto=ym; const movs=ordenar((await getAll('movs')).filter(m=>(m.fecha||'').slice(0,7)===ym));
+  pantalla('<div class="tit">'+nombreMes(ym)+'</div>'+
+   (movs.length?'<div class="lista">'+movs.map(m=>'<button class="fila" onclick="detalle(\''+m.id+'\')"><div class="f1"><div>'+esc(m.concepto||m.categoria||m.tipo)+(m.fotoId?' <small>· recibo</small>':'')+'</div><small>'+fechaCorta(m.fecha)+(m.categoria?' · '+esc(m.categoria):'')+(m.estado==='Pendiente'?' · pendiente':'')+'</small></div><b'+(m.tipo==='Ingreso'?' style="color:var(--pos)"':'')+'>'+(m.tipo==='Ingreso'?'+':'−')+money(m.valor)+'</b></button>').join('')+'</div>'
+     :'<div class="vacio">Sin movimientos.</div>')+
+   '<div class="acciones"><button class="btn ghost" onclick="meses()">Volver</button><button class="btn ghost" onclick="home()">Inicio</button></div>'); }
+async function detalle(id){ const m=await getOne('movs',id); if(!m){ meses(); return; }
+  let foto=''; if(m.fotoId){ const f=await getOne('fotos',m.fotoId); if(f) foto='<img class="foto" src="'+f.data+'" alt="Recibo">'; }
+  const L=(a,b)=>'<div><span>'+a+'</span><b>'+b+'</b></div>';
+  pantalla('<div class="tit">'+m.tipo+'</div><div class="det">'+L('Valor',money(m.valor))+L('Fecha',fechaCorta(m.fecha))+L(m.tipo==='Gasto'?'Concepto':'Origen',esc(m.concepto||'—'))+
+   (m.tipo==='Gasto'?L('Categoría',esc(m.categoria||'—'))+L('Estado',esc(m.estado||'—')):'')+'</div>'+foto+
+   '<button class="btn sec" onclick="editar(\''+m.id+'\')">Editar</button><button class="btn danger" onclick="eliminar(\''+m.id+'\')">Eliminar</button>'+
+   '<button class="btn ghost" onclick="abrirMes(\''+(m.fecha||'').slice(0,7)+'\')">Volver</button>'); }
+async function eliminar(id){ const m=await getOne('movs',id); if(!m) return;
+  if(!confirm('¿Eliminar este '+m.tipo.toLowerCase()+' de '+money(m.valor)+'? No se puede deshacer.')) return;
+  if(m.fotoId) await del('fotos',m.fotoId); await del('movs',id); cambio(); toast('Eliminado.'); abrirMes((m.fecha||'').slice(0,7)); }
+
+/* ---------- categorías ---------- */
+function categorias(){
+  pantalla('<div class="tit">Categorías</div><div class="lista">'+CATS.map((c,i)=>'<div class="fila" style="cursor:default"><div class="f1"><div>'+esc(c)+'</div></div>'+
+    '<button class="lnk" style="margin-right:14px" onclick="renombrarCat('+i+')">Renombrar</button><button class="lnk" style="color:var(--neg)" onclick="borrarCat('+i+')">Borrar</button></div>').join('')+'</div>'+
+   '<button class="btn sec" onclick="crearCat()">'+I.mas+'Nueva categoría</button><button class="btn ghost" onclick="home()">Inicio</button>'); }
+async function guardarCats(){ await setMeta('cats',CATS); cambio(); }
+async function crearCat(){ const n=(prompt('Nombre de la nueva categoría:')||'').trim(); if(!n) return;
+  if(CATS.some(c=>c.toLowerCase()===n.toLowerCase())){ toast('Esa categoría ya existe.'); return; }
+  CATS.push(n); await guardarCats(); toast('Categoría creada.'); categorias(); }
+async function renombrarCat(i){ const v=CATS[i]; const n=(prompt('Nuevo nombre para "'+v+'":',v)||'').trim(); if(!n||n===v) return;
+  CATS[i]=n; await guardarCats();
+  const movs=(await getAll('movs')).filter(m=>m.categoria===v); for(const m of movs){ m.categoria=n; await put('movs',m); }
+  toast('Renombrada'+(movs.length?' ('+movs.length+' movimientos actualizados).':'.')); categorias(); }
+async function borrarCat(i){ const c=CATS[i]; if(CATS.length<=1){ toast('Deja al menos una categoría.'); return; }
+  if(!confirm('¿Borrar la categoría "'+c+'"? Los gastos que ya la tienen la conservan.')) return;
+  CATS.splice(i,1); await guardarCats(); toast('Categoría borrada.'); categorias(); }
+
+/* ---------- carpeta, copias y Excel ---------- */
+async function armarCopia(){ return { app:'cuentas-javier', version:1, exportado:new Date().toISOString(), cats:CATS,
+  movs:ordenar(await getAll('movs')), fotos:await getAll('fotos') }; }
+function csv(movs){ const q=s=>{ s=String(s==null?'':s); return /[;"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; };
+  return ['Fecha;Tipo;Valor;Concepto;Categoría;Estado;Recibo'].concat(movs.map(m=>[m.fecha,m.tipo,m.valor,q(m.concepto),q(m.categoria),m.estado||'',m.fotoId?'Sí':''].join(';'))).join('\r\n'); }
+async function copia(){ copiaFile=null; csvFile=null;
+  const movs=await getAll('movs'), nf=(await getAll('fotos')).length, last=await getMeta('lastBackup');
+  const fsApi='showDirectoryPicker' in window;
+  pantalla('<div class="tit">Mi carpeta y copias</div>'+
+   '<p class="txt">Tus cuentas viven <b>solo en este equipo</b>. No hay servidor ni nube: nadie más las ve. Para no perderlas si cambias o pierdes el teléfono, guarda una copia en tu carpeta <b>Cuentas Javier</b> de tu <b>iCloud Drive</b> (protegida con tu Apple ID).</p>'+
+   '<div class="det"><div><span>Movimientos</span><b>'+movs.length+'</b></div><div><span>Miniaturas de recibos</span><b>'+nf+'</b></div>'+
+   '<div><span>Última copia</span><b>'+(last?fechaCorta(last.slice(0,10)):'Nunca')+'</b></div></div>'+
+   (fsApi?'<div class="sect">Carpeta en este computador</div><div class="card"><div class="cl">'+(dirHandle?(dirOk?'Vinculada: <b style="color:var(--txt)">'+esc(dirHandle.name)+'</b>. Cada cambio se guarda ahí solo (cuentas-javier.json y .csv).':'Vinculada a <b style="color:var(--txt)">'+esc(dirHandle.name)+'</b>, pero falta permiso.'):'Elige una carpeta de tu PC y la app guardará ahí cada cambio, sola.')+'</div></div>'+
+     (dirHandle&&!dirOk?'<button class="btn pri" onclick="reconectar()">Reconectar carpeta</button>':'<button class="btn '+(dirHandle?'sec':'pri')+'" onclick="vincular()">'+I.folder+(dirHandle?'Cambiar carpeta':'Vincular mi carpeta')+'</button>')
+    :'')+
+   '<div class="sect">Copia manual</div>'+
+   '<button class="btn pri" id="bCopia" disabled onclick="guardarCopia()">'+I.share+'Guardar copia en mi carpeta</button>'+
+   (esMovil()?'<p class="txt" style="font-size:13.5px;color:var(--mut)">En el menú que sale toca <b>Guardar en Archivos</b> → iCloud Drive → <b>Cuentas Javier</b>.</p>':'')+
+   '<button class="btn sec" id="bCsv" disabled onclick="exportarCsv()">Exportar a Excel (.csv)</button>'+
+   '<div class="sect">Restaurar</div>'+
+   '<p class="txt" style="font-size:14px;color:var(--mut)">Para pasar tus datos a un teléfono nuevo: instala la app ahí y escoge el último archivo <b>cuentas-javier-…json</b> de tu carpeta.</p>'+
+   '<button class="btn ghost" onclick="$(\'restore\').click()">Restaurar desde una copia</button>'+
+   '<button class="btn ghost" onclick="home()">Inicio</button>');
+  const data=await armarCopia();
+  copiaFile=new File([JSON.stringify(data)],'cuentas-javier-'+hoy()+'.json',{type:'application/json'});
+  csvFile=new File(['﻿'+csv(data.movs)],'cuentas-javier-'+hoy()+'.csv',{type:'text/csv'});
+  if($('bCopia')) $('bCopia').disabled=false; if($('bCsv')) $('bCsv').disabled=false; }
+async function entregar(file){
+  if(esMovil()&&navigator.canShare&&navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file]}); return true; }catch(e){ if(e&&e.name==='AbortError') return false; }
+  }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(file); a.download=file.name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },5000); return true; }
+async function guardarCopia(){ if(!copiaFile) return; if(await entregar(copiaFile)){ await setMeta('lastBackup',new Date().toISOString());
+  listo('Copia guardada', esMovil()?'Quedó en iCloud Drive → Cuentas Javier.':'Quedó en tu carpeta de descargas; muévela a tu carpeta privada.'); } }
+async function exportarCsv(){ if(csvFile&&await entregar(csvFile)) toast('Listo. Ábrelo con Excel o Numbers.'); }
+async function onRestore(e){ const f=e.target.files&&e.target.files[0]; e.target.value=''; if(!f) return;
+  let d; try{ d=JSON.parse(await f.text()); }catch(_){ toast('Ese archivo no es una copia válida.'); return; }
+  if(!d||d.app!=='cuentas-javier'||!Array.isArray(d.movs)){ toast('Ese archivo no es una copia de Cuentas.'); return; }
+  if(!confirm('La copia tiene '+d.movs.length+' movimientos (guardada el '+fechaCorta(String(d.exportado||'').slice(0,10))+').\n\nEsto REEMPLAZA lo que hay ahora en este equipo. ¿Seguir?')) return;
+  try{ await new Promise((res,rej)=>{ const t=db.transaction(['movs','fotos','meta'],'readwrite'); const M=t.objectStore('movs'),F=t.objectStore('fotos'),X=t.objectStore('meta');
+    M.clear(); F.clear(); d.movs.forEach(m=>M.put(m)); (d.fotos||[]).forEach(x=>F.put(x));
+    X.put(Array.isArray(d.cats)&&d.cats.length?d.cats:CATS_DEF,'cats'); X.put(new Date().toISOString(),'lastBackup');
+    t.oncomplete=res; t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); });
+  }catch(err){ toast('No se pudo restaurar.'); return; }
+  CATS=(await getMeta('cats'))||CATS_DEF.slice(); cambio(); listo('Datos restaurados', d.movs.length+' movimientos recuperados.'); }
+
+/* carpeta vinculada (solo Chrome/Edge en computador) */
+async function vincular(){ try{ const h=await window.showDirectoryPicker({id:'cuentas-javier',mode:'readwrite'});
+    dirHandle=h; dirOk=true; await setMeta('dir',h); await escribirEnCarpeta(); toast('Carpeta vinculada.'); copia();
+  }catch(e){ if(!e||e.name!=='AbortError') toast('No se pudo vincular la carpeta.'); } }
+async function reconectar(){ if(!dirHandle) return; try{ dirOk=(await dirHandle.requestPermission({mode:'readwrite'}))==='granted';
+    if(dirOk){ await escribirEnCarpeta(); toast('Carpeta reconectada.'); } }catch(_){ toast('No se pudo reconectar.'); } home(); }
+async function escribirEnCarpeta(){ if(!dirHandle||!dirOk) return;
+  try{ if((await dirHandle.queryPermission({mode:'readwrite'}))!=='granted'){ dirOk=false; return; }
+    const data=await armarCopia();
+    const escribir=async(nombre,contenido)=>{ const fh=await dirHandle.getFileHandle(nombre,{create:true}); const w=await fh.createWritable(); await w.write(contenido); await w.close(); };
+    await escribir('cuentas-javier.json',JSON.stringify(data)); await escribir('cuentas-javier.csv','﻿'+csv(data.movs));
+    await setMeta('lastBackup',new Date().toISOString());
+  }catch(e){ console.warn('carpeta',e); } }
+let _ct; function cambio(){ if(!dirHandle||!dirOk) return; clearTimeout(_ct); _ct=setTimeout(escribirEnCarpeta,700); }
+
+/* ---------- ayuda ---------- */
+function ayuda(){
+  pantalla('<div class="tit">Ayuda</div>'+
+   '<div class="sect">1. Instalar en el iPhone</div><ol class="pasos">'+
+   '<li>Abre el link en <b>Safari</b> (no en Chrome ni dentro de WhatsApp).</li>'+
+   '<li>Toca <b>Compartir</b> (cuadro con flecha hacia arriba).</li>'+
+   '<li>Baja y toca <b>Agregar a inicio</b> → <b>Agregar</b>.</li>'+
+   '<li>Usa la app <b>siempre desde ese ícono</b>. Lo que anotes en Safari queda aparte.</li></ol>'+
+   '<div class="sect">2. Crear tu carpeta privada</div><ol class="pasos">'+
+   '<li>Abre la app <b>Archivos</b> del iPhone.</li>'+
+   '<li>Toca <b>Explorar</b> → <b>iCloud Drive</b>. Es tu nube privada: solo entra quien tenga tu Apple ID.</li>'+
+   '<li>Mantén presionado un espacio vacío → <b>Nueva carpeta</b> → <b>Cuentas Javier</b>.</li></ol>'+
+   '<div class="sect">3. Guardar copias</div><ol class="pasos">'+
+   '<li>En <b>Mi carpeta y copias</b> toca <b>Guardar copia en mi carpeta</b>.</li>'+
+   '<li>Elige <b>Guardar en Archivos</b> → iCloud Drive → <b>Cuentas Javier</b> → <b>Guardar</b>.</li>'+
+   '<li>Hazlo cada semana. La app te recuerda si pasan 7 días.</li></ol>'+
+   '<div class="sect">Fotos de recibos</div><p class="txt">La foto original queda en tu <b>galería</b> (iCloud Fotos). La app guarda solo una miniatura liviana para ver el recibo junto al gasto. Si tomas la foto desde la app, al guardar te ofrece mandar la original a tu galería.</p>'+
+   '<div class="sect">Privacidad</div><p class="txt">Todo se guarda dentro del teléfono. La app no envía tus datos a ningún lado; funciona incluso sin internet. Si borras la app del inicio o los datos de Safari, se borran también los registros: por eso existen las copias.</p>'+
+   '<div class="sect">En el computador (opcional)</div><p class="txt">Abre el mismo link en Chrome o Edge, ve a <b>Mi carpeta y copias</b> → <b>Vincular mi carpeta</b>, y cada cambio se guarda solo ahí. Para pasar datos del teléfono al PC usa <b>Restaurar desde una copia</b>.</p>'+
+   '<button class="btn ghost" onclick="home()">Inicio</button>'); }
+
+/* ---------- arranque ---------- */
+$('cam').addEventListener('change',onFoto); $('gal').addEventListener('change',onFoto); $('restore').addEventListener('change',onRestore);
+(async()=>{
+  try{ await abrirDB(); }catch(e){ pantalla('<div class="aviso">No se pudo abrir el almacenamiento. Si estás en navegación privada, ábrela en modo normal.</div>'); return; }
+  const c=await getMeta('cats'); if(Array.isArray(c)&&c.length) CATS=c; else await setMeta('cats',CATS);
+  if('showDirectoryPicker' in window){ dirHandle=(await getMeta('dir'))||null;
+    if(dirHandle){ try{ dirOk=(await dirHandle.queryPermission({mode:'readwrite'}))==='granted'; }catch(_){ dirOk=false; } } }
+  if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+  home();
+})();
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body></html>
